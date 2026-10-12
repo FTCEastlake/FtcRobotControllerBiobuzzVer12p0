@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.frankenstein;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.common.LimelightVision;
@@ -25,7 +26,9 @@ public class FrankensteinRobot {
     public final LimelightVision vision;
 
     public FrankensteinRobot(HardwareMap hardwareMap) {
-        drive = new MecanumDrive(hardwareMap, POD_X_OFFSET, POD_Y_OFFSET, X_ENCODER, Y_ENCODER, MAX_SPEED);
+        drive = new MecanumDrive(hardwareMap, POD_X_OFFSET, POD_Y_OFFSET, X_ENCODER, Y_ENCODER,
+            DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.REVERSE,
+            DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.FORWARD, MAX_SPEED);
         // To use the Control Hub IMU instead of Pinpoint odometry:
         // drive = new MecanumDrive(hardwareMap,
         //         RevHubOrientationOnRobot.LogoFacingDirection.UP,

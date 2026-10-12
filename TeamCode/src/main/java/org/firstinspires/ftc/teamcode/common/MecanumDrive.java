@@ -5,6 +5,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.Range;
@@ -42,23 +43,31 @@ public class MecanumDrive {
 
     /**
      * Default: heading and position from Pinpoint 4-bar odometry. Distances are in inches.
-     * Motors default to left side reversed; use {@link #setMotorDirections} if the robot differs.
+    * Motor directions are supplied explicitly so they can be configured per robot.
      *
      * @param xOffset    sideways offset of the X (forward) pod from the tracking center, left positive.
      * @param yOffset    forward offset of the Y (strafe) pod from the tracking center, forward positive.
      * @param xEncoder   X pod direction; should count up when the robot moves forward.
      * @param yEncoder   Y pod direction; should count up when the robot moves left.
+    * @param leftFrontDirection direction of the left-front motor.
+    * @param leftRearDirection  direction of the left-rear motor.
+    * @param rightFrontDirection direction of the right-front motor.
+    * @param rightRearDirection direction of the right-rear motor.
      * @param maxSpeed   motor power cap, 0 to 1.
      */
     public MecanumDrive(HardwareMap hardwareMap,
                         double xOffset, double yOffset,
                         GoBildaPinpointDriver.EncoderDirection xEncoder,
                         GoBildaPinpointDriver.EncoderDirection yEncoder,
+                        DcMotorSimple.Direction leftFrontDirection,
+                        DcMotorSimple.Direction leftRearDirection,
+                        DcMotorSimple.Direction rightFrontDirection,
+                        DcMotorSimple.Direction rightRearDirection,
                         double maxSpeed) {
-        leftFront = initMotor(hardwareMap, LEFT_FRONT, DcMotorSimple.Direction.REVERSE);
-        leftRear = initMotor(hardwareMap, LEFT_REAR, DcMotorSimple.Direction.REVERSE);
-        rightFront = initMotor(hardwareMap, RIGHT_FRONT, DcMotorSimple.Direction.FORWARD);
-        rightRear = initMotor(hardwareMap, RIGHT_REAR, DcMotorSimple.Direction.FORWARD);
+        leftFront = initMotor(hardwareMap, LEFT_FRONT, leftFrontDirection);
+        leftRear = initMotor(hardwareMap, LEFT_REAR, leftRearDirection);
+        rightFront = initMotor(hardwareMap, RIGHT_FRONT, rightFrontDirection);
+        rightRear = initMotor(hardwareMap, RIGHT_REAR, rightRearDirection);
         odometry = new FourBarOdometry(hardwareMap, xOffset, yOffset, xEncoder, yEncoder);
         imu = null;
         setMaxSpeed(maxSpeed);
@@ -186,6 +195,18 @@ public class MecanumDrive {
         leftRear.setPower(lr * scale);
         rightFront.setPower(rf * scale);
         rightRear.setPower(rr * scale);
+    }
+
+    /**
+     * Runs individual wheels at low power for hardware checks. Call once per loop
+     * while testing; a wheel stops as soon as its button is released.
+     * X: left front, Y: right front, A: left rear, B: right rear.
+     */
+    public void testIndividualMotors(Gamepad gamepad) {
+        leftFront.setPower(gamepad.x ? 0.15 : 0);
+        rightFront.setPower(gamepad.y ? 0.15 : 0);
+        leftRear.setPower(gamepad.a ? 0.15 : 0);
+        rightRear.setPower(gamepad.b ? 0.15 : 0);
     }
 
     public void stop() {

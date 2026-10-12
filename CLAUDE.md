@@ -53,6 +53,9 @@ Several robots share the same drivetrain, odometry and vision hardware, so that 
 - Motor configuration names: `"leftFront"`, `"leftRear"`, `"rightFront"`, `"rightRear"`. Get them with `hardwareMap.get(DcMotor.class, "leftFront")` or `DcMotorEx.class`. On a typical mecanum build the left-side motors need `setDirection(DcMotor.Direction.REVERSE)`; check this on the robot.
 - Starting samples: `RobotTeleopMecanumFieldRelativeDrive.java` and `BasicOmniOpMode_Linear.java`.
 
+**Driver controller**
+- Logitech F310 gamepad controller.
+
 **Odometry**
 - 2× goBILDA 4-Bar odometry pods, one forward (X) and one strafe (Y), wired to a goBILDA Pinpoint Odometry Computer over I2C.
 - The driver is `GoBildaPinpointDriver`, which ships with the SDK. Set it up with `setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)`, then `setOffsets(...)` measured on this robot. The offsets in the sample were tuned for a different robot. Reference sample: `SensorGoBildaPinpoint.java`.
