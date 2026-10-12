@@ -43,16 +43,16 @@ public class MecanumDrive {
 
     /**
      * Default: heading and position from Pinpoint 4-bar odometry. Distances are in inches.
-    * Motor directions are supplied explicitly so they can be configured per robot.
+     * Motor directions are supplied explicitly so they can be configured per robot.
      *
      * @param xOffset    sideways offset of the X (forward) pod from the tracking center, left positive.
      * @param yOffset    forward offset of the Y (strafe) pod from the tracking center, forward positive.
      * @param xEncoder   X pod direction; should count up when the robot moves forward.
      * @param yEncoder   Y pod direction; should count up when the robot moves left.
-    * @param leftFrontDirection direction of the left-front motor.
-    * @param leftRearDirection  direction of the left-rear motor.
-    * @param rightFrontDirection direction of the right-front motor.
-    * @param rightRearDirection direction of the right-rear motor.
+     * @param leftFrontDirection direction of the left-front motor.
+     * @param leftRearDirection  direction of the left-rear motor.
+     * @param rightFrontDirection direction of the right-front motor.
+     * @param rightRearDirection direction of the right-rear motor.
      * @param maxSpeed   motor power cap, 0 to 1.
      */
     public MecanumDrive(HardwareMap hardwareMap,
@@ -156,13 +156,16 @@ public class MecanumDrive {
 
     /**
      * Drives relative to the field. Typical gamepad mapping:
-     * {@code driveFieldCentric(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x)}.
+     * {@code driveFieldCentric(-gamepad1.left_stick_y, gamepad1.left_stick_x,
+     * gamepad1.right_stick_x, maxSpeed)}.
      *
      * @param forward away from the driver, -1 to 1.
      * @param strafe  to the driver's right, -1 to 1.
      * @param turn    clockwise, -1 to 1.
+     * @param maxSpeed motor power cap, 0 to 1.
      */
-    public void driveFieldCentric(double forward, double strafe, double turn) {
+    public void driveFieldCentric(double forward, double strafe, double turn, double maxSpeed) {
+        setMaxSpeed(maxSpeed);
         // Rotate the field-frame command into the robot frame. Heading is CCW positive and
         // strafe is right positive, so rotating by +heading here is the inverse rotation.
         double heading = getHeading(AngleUnit.RADIANS);

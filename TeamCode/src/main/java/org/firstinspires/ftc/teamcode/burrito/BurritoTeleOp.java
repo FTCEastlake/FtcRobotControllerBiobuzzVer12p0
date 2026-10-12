@@ -14,6 +14,8 @@ import org.firstinspires.ftc.teamcode.common.FourBarOdometry;
 public class BurritoTeleOp extends OpMode {
 
     private BurritoRobot robot;
+    private double maxSpeed = 1.0;
+    private boolean leftBumperWasPressed;
 
     @Override
     public void init() {
@@ -47,20 +49,29 @@ public class BurritoTeleOp extends OpMode {
     public void loop() {
         robot.drive.update();
 
+        // Toggle the drive speed once per left-bumper press.
+        boolean leftBumperPressed = gamepad1.left_bumper;
+        if (leftBumperPressed && !leftBumperWasPressed) {
+            maxSpeed = maxSpeed == 1.0 ? 0.5 : maxSpeed == 0.5 ? 0.25 : 1.0;
+        }
+        leftBumperWasPressed = leftBumperPressed;
+
         if (gamepad1.start) {
             robot.drive.resetHeading();
         }
 
-        robot.drive.driveFieldCentric(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        robot.drive.driveFieldCentric(-gamepad1.left_stick_y, gamepad1.left_stick_x,
+                gamepad1.right_stick_x, maxSpeed);
+        telemetry.addData("Max speed", "%.2f", maxSpeed);
 
-        telemetry.addData("Heading (deg)", "%.1f", robot.drive.getHeading(AngleUnit.DEGREES));
+        telemetry.addData("Heading (deg)", "%.2f", robot.drive.getHeading(AngleUnit.DEGREES));
         FourBarOdometry odometry = robot.drive.getOdometry();
         if (odometry != null) {
-            telemetry.addData("Position (in)", "X %.1f  Y %.1f", odometry.getX(), odometry.getY());
+            telemetry.addData("Position (in)", "X %.2f  Y %.2f", odometry.getX(), odometry.getY());
         }
         Pose2D visionPose = robot.vision.getFieldPose(robot.drive.getHeading(AngleUnit.DEGREES), AngleUnit.DEGREES);
         if (visionPose != null) {
-            telemetry.addData("Limelight (in)", "X %.1f  Y %.1f",
+            telemetry.addData("Limelight (in)", "X %.2f  Y %.2f",
                     visionPose.getX(DistanceUnit.INCH), visionPose.getY(DistanceUnit.INCH));
         } else {
             telemetry.addData("Limelight", "no tags");
