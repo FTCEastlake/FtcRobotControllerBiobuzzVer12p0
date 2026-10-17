@@ -41,6 +41,7 @@ public class EggTeleOp extends OpMode {
     // Called one time as soon as you press the Play button on the Driver Station.
     @Override
     public void start() {
+
         robot.vision.start();
     }
 

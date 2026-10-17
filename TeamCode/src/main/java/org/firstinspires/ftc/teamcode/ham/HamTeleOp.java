@@ -25,6 +25,7 @@ public class HamTeleOp extends OpMode {
 
     @Override
     public void start() {
+
         robot.vision.start();
     }
 

@@ -22,7 +22,6 @@ public class FrankensteinTeleOp extends OpMode {
     public void init() {
         robot = new FrankensteinRobot(hardwareMap);
         telemetry.addLine("Frankenstein ready. Options resets field heading.");
-
     }
 
     // Called repeatedly after you press the Init button, but before you press the Play button on the Driver Station.
@@ -43,6 +42,7 @@ public class FrankensteinTeleOp extends OpMode {
     // Called one time as soon as you press the Play button on the Driver Station.
     @Override
     public void start() {
+        
         robot.vision.start();
     }
 
