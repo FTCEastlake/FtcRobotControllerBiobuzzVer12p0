@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.common.MecanumDrive;
 public class FrankensteinRobot {
 
     // TODO: measure on Frankenstein. Inches from the tracking center (see FourBarOdometry).
-    public static final double POD_X_OFFSET = 0.0;
-    public static final double POD_Y_OFFSET = 0.0;
+    public static final double XPOD_OFFSET = 3.6875;   // sideways inches offset of the X (forward) pod from the tracking center, left positive.
+    public static final double YPOD_OFFSET = -6.625;   // forward inches offset of the Y (strafe) pod from the tracking center, forward positive.
     // TODO: verify X counts up driving forward and Y counts up strafing left.
     public static final GoBildaPinpointDriver.EncoderDirection X_ENCODER = GoBildaPinpointDriver.EncoderDirection.FORWARD;
     public static final GoBildaPinpointDriver.EncoderDirection Y_ENCODER = GoBildaPinpointDriver.EncoderDirection.FORWARD;
@@ -26,7 +26,7 @@ public class FrankensteinRobot {
     public final LimelightVision vision;
 
     public FrankensteinRobot(HardwareMap hardwareMap) {
-        drive = new MecanumDrive(hardwareMap, POD_X_OFFSET, POD_Y_OFFSET, X_ENCODER, Y_ENCODER,
+        drive = new MecanumDrive(hardwareMap, XPOD_OFFSET, YPOD_OFFSET, X_ENCODER, Y_ENCODER,
             DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.REVERSE,
             DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.FORWARD, MAX_SPEED);
         // To use the Control Hub IMU instead of Pinpoint odometry:
