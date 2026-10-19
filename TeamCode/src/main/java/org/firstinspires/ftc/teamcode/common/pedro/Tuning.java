@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.pedro;
+package org.firstinspires.ftc.teamcode.common.pedro;
 
 public class Tuning {
     // Tuners go here

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.pedro.procedures;
+package org.firstinspires.ftc.teamcode.common.pedro.procedures;
 
 import com.pedropathing.tuning.autotune.*;
 import com.pedropathing.tuning.autotune.Display.FourWheelBot.Wheel;
