@@ -17,7 +17,7 @@ public class FrankensteinRobot {
     public static final double YPOD_OFFSET = -6.625;   // forward inches offset of the Y (strafe) pod from the tracking center, forward positive.
     // TODO: verify X counts up driving forward and Y counts up strafing left.
     public static final GoBildaPinpointDriver.EncoderDirection X_ENCODER = GoBildaPinpointDriver.EncoderDirection.FORWARD;
-    public static final GoBildaPinpointDriver.EncoderDirection Y_ENCODER = GoBildaPinpointDriver.EncoderDirection.FORWARD;
+    public static final GoBildaPinpointDriver.EncoderDirection Y_ENCODER = GoBildaPinpointDriver.EncoderDirection.REVERSED;
 
     public static final double MAX_SPEED = 1.0;
     public static final int LIMELIGHT_PIPELINE = 0;
