@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.pedro;
+package org.firstinspires.ftc.teamcode.egg.pedro;
 
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.hardware.HardwareMap;
