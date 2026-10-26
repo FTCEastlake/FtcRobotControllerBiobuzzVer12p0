@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.frankenstein;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -22,20 +23,30 @@ public class FrankensteinRobot {
     public static final double MAX_SPEED = 1.0;
     public static final int LIMELIGHT_PIPELINE = 0;
 
+    private static final boolean USE_PINPOINT_ODOMETRY = false;
+
     public final MecanumDrive drive;
     public final LimelightVision vision;
 
     public FrankensteinRobot(HardwareMap hardwareMap) {
-        drive = new MecanumDrive(hardwareMap, XPOD_OFFSET, YPOD_OFFSET, X_ENCODER, Y_ENCODER,
-            DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.REVERSE,
-            DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.FORWARD, MAX_SPEED);
-        // To use the Control Hub IMU instead of Pinpoint odometry:
-        // drive = new MecanumDrive(hardwareMap,
-        //         RevHubOrientationOnRobot.LogoFacingDirection.UP,
-        //         RevHubOrientationOnRobot.UsbFacingDirection.FORWARD,
-        //         DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.REVERSE,
-        //         DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.FORWARD,
-        //         MAX_SPEED);
+        if (USE_PINPOINT_ODOMETRY)
+        {
+            // Uses the Pinpoint odometry instead of Control Hub IMU.
+            drive = new MecanumDrive(hardwareMap, XPOD_OFFSET, YPOD_OFFSET, X_ENCODER, Y_ENCODER,
+                    DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.REVERSE,
+                    DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.FORWARD, MAX_SPEED);
+        }
+        else
+        {
+            // Uses the Control Hub IMU instead of Pinpoint odometry.
+             drive = new MecanumDrive(hardwareMap,
+                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                     RevHubOrientationOnRobot.UsbFacingDirection.FORWARD,
+                     DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.REVERSE,
+                     DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.FORWARD,
+                     MAX_SPEED);
+        }
+
         vision = new LimelightVision(hardwareMap, LIMELIGHT_PIPELINE);
     }
 }
