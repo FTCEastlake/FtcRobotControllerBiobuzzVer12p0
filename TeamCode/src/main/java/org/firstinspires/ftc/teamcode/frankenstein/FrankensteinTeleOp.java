@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.frankenstein;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.common.FourBarOdometry;
 
 @TeleOp(name = "Frankenstein: TeleOp", group = "Frankenstein")
-//@Disable
+@Disabled
 public class FrankensteinTeleOp extends OpMode {
 
     private FrankensteinRobot robot;

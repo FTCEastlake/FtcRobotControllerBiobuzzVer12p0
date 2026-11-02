@@ -23,7 +23,7 @@ public class FrankensteinRobot {
     public static final double MAX_SPEED = 1.0;
     public static final int LIMELIGHT_PIPELINE = 0;
 
-    private static final boolean USE_PINPOINT_ODOMETRY = false;
+    private static final boolean USE_PINPOINT_ODOMETRY = true;
 
     public final MecanumDrive drive;
     public final LimelightVision vision;
