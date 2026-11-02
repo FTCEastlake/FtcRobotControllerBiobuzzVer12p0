@@ -26,7 +26,7 @@ public class HamRobot {
     private static final boolean USE_PINPOINT_ODOMETRY = false;
 
     public final MecanumDrive drive;
-    public final LimelightVision vision;
+//    public final LimelightVision vision;
 
     public HamRobot(HardwareMap hardwareMap) {
         if (USE_PINPOINT_ODOMETRY)
@@ -40,13 +40,13 @@ public class HamRobot {
         {
             // Uses the Control Hub IMU instead of Pinpoint odometry.
             drive = new MecanumDrive(hardwareMap,
-                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                    RevHubOrientationOnRobot.UsbFacingDirection.FORWARD,
+                    RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                    RevHubOrientationOnRobot.UsbFacingDirection.UP,
                     DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.REVERSE,
                     DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.FORWARD,
                     MAX_SPEED);
         }
 
-        vision = new LimelightVision(hardwareMap, LIMELIGHT_PIPELINE);
+//        vision = new LimelightVision(hardwareMap, LIMELIGHT_PIPELINE);
     }
 }
