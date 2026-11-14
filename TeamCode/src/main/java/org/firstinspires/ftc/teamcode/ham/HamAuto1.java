@@ -11,20 +11,23 @@ import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static com.pedropathing.api.Paths.*;
 import static com.pedropathing.ivy.Scheduler.schedule;
+import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 
 
 @Autonomous
-//@Disabled
+@Disabled
 public class HamAuto1 extends OpMode {
 
     private HamRobot robot;
     private Follower follower;
+    private final ElapsedTime shooterTimer = new ElapsedTime();
     private final PoseFactory p = PoseFactory.degrees();
 
     private final PoseFactory poseFactory = PoseFactory.degrees();
@@ -73,9 +76,14 @@ public class HamAuto1 extends OpMode {
     // The second path begins after the first follow() command finishes.
     private Command autoRoutine() {
         return sequential(
-                follow(follower, startToScore()),
-                // Add shooter mechanism commands here.
-                follow(follower, scoreToPark())
+            instant(() -> robot.runShooter(false, 1.0)),
+            follow(follower, startToScore()),
+            Command.build()
+                .setStart(shooterTimer::reset)
+                .setExecute(() -> robot.runShooter(true, 1.0))
+                .setDone(() -> shooterTimer.seconds() >= 5.0),
+            instant(() -> robot.runShooter(false, 0.0)),
+            follow(follower, scoreToPark())
         );
     }
 

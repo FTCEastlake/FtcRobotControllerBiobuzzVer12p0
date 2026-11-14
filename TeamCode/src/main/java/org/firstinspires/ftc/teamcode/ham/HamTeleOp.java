@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.common.FourBarOdometry;
 
 @TeleOp(name = "Ham: TeleOp", group = "Ham")
-//@Disabled
+@Disabled
 public class HamTeleOp extends OpMode {
 
     private HamRobot robot;
