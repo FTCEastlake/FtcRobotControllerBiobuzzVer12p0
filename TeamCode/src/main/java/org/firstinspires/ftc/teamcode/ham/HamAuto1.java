@@ -20,9 +20,10 @@ import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 
 @Autonomous
-@Disabled
+//@Disabled
 public class HamAuto1 extends OpMode {
 
+    private HamRobot robot;
     private Follower follower;
     private final PoseFactory p = PoseFactory.degrees();
 
@@ -83,6 +84,7 @@ public class HamAuto1 extends OpMode {
     {
         // Reset Ivy and create the follower
         Scheduler.reset();
+        robot = new HamRobot(hardwareMap);
         follower = Constants.create(hardwareMap);
         follower.setPose(startPose);
         follower.update();
@@ -107,5 +109,10 @@ public class HamAuto1 extends OpMode {
         telemetry.addData("Heading", Math.toDegrees(follower.pose().heading()));
         telemetry.addData("Follower Mode", follower.mode());
         telemetry.update();
+    }
+
+    @Override
+    public void stop() {
+        robot.stopShooter();
     }
 }
