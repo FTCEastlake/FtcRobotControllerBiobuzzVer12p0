@@ -52,7 +52,7 @@ public class HamTeleOp extends OpMode {
 
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         launcherMotor = hardwareMap.get(DcMotorEx.class, "launcherMotor");
-        //windmillServo = hardwareMap.get(CRServo.class, "windmillServo");
+        windmillServo = hardwareMap.get(CRServo.class, "windmillServo");
         leftIntakeServo = hardwareMap.get(CRServo.class, "leftIntakeServo");
         rightIntakeServo = hardwareMap.get(CRServo.class, "rightIntakeServo");
         leftIntakeServo.setPower(0);
@@ -80,14 +80,14 @@ public class HamTeleOp extends OpMode {
          */
         leftIntakeServo.setPower(0);
         rightIntakeServo.setPower(0);
-        //windmillServo.setPower(0);
+        windmillServo.setPower(0);
 
         /*
          * Much like our drivetrain motors, we set the right intake servo to reverse so that both
          * servos work to pull elements into the intake.
          */
         rightIntakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        //windmillServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        windmillServo.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addLine("Ham ready. Options resets field heading.");
     }
@@ -140,7 +140,7 @@ public class HamTeleOp extends OpMode {
          * allow us to avoid setting the same motors/servos power more than once per loop. That can
          * create erratic behavior.
          */
-        intakePower = gamepad1.right_trigger - gamepad1.left_trigger;
+        intakePower = gamepad2.right_trigger - gamepad2.left_trigger;
 
         /*
          * The launch() function handles setting motor velocity, and running the windmill servo
@@ -184,14 +184,14 @@ public class HamTeleOp extends OpMode {
 
     void launch() {
         /*
-         * Calling gamepad1.right_bumper returns a boolean which will be true if the bumper is
+         * Calling gamepad2.right_bumper returns a boolean which will be true if the bumper is
          * held down, and false if it is not. Notably, this will continue to be true for every
          * cycle of our code that the driver holds down that bumper.
          * The first step of our launch() function is checking to see if the user is currently
          * holding down the right gamepad. If they are, then we want to start spinning up the launcher.
          * Otherwise, we start spinning the launcher down.
          */
-        if (gamepad1.right_bumper) {
+        if (gamepad2.right_bumper) {
             launcherMotor.setVelocity(LAUNCHER_TARGET_VELOCITY);
         } else {
             launcherMotor.setVelocity(0);
@@ -204,11 +204,11 @@ public class HamTeleOp extends OpMode {
          * add some power to the intake power. This can sometimes help dislodge stuck elements from
          * inside the hopper.
          */
-        if (gamepad1.right_bumper && launcherMotor.getVelocity() > LAUNCHER_MIN_VELOCITY) {
-            //windmillServo.setPower(1);
+        if (gamepad2.right_bumper && launcherMotor.getVelocity() > LAUNCHER_MIN_VELOCITY) {
+            windmillServo.setPower(1);
             intakePower += 0.5;
         } else {
-            //windmillServo.setPower(0);
+            windmillServo.setPower(0);
         }
     }
 
