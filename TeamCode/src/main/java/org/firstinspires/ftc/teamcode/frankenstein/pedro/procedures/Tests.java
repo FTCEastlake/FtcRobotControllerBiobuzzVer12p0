@@ -47,7 +47,7 @@ public class Tests extends Procedure {
     Function<HardwareMap, Follower> followerFunction;
 
     public Tests(Function<HardwareMap, Drivetrain> drivetrainFunction, Function<HardwareMap, Localizer> localizerFunction, Supplier<Algorithm> algorithmSupplier) {
-        super("Tests", "A procedure for testing the Follower.");
+        super("Tests (Frankenstein)", "A procedure for testing the Follower.");
         this.drivetrainFunction = drivetrainFunction;
         this.localizerFunction = localizerFunction;
         this.algorithmSupplier = algorithmSupplier;

@@ -20,7 +20,7 @@ public class PinpointTuner extends Procedure {
         CUSTOM
     }
     public PinpointTuner() {
-        super("Pinpoint Tuner", "A procedure for tuning the Pinpoint localizer.");
+        super("Pinpoint Tuner (Burrito)", "A procedure for tuning the Pinpoint localizer.");
     }
 
     @Override

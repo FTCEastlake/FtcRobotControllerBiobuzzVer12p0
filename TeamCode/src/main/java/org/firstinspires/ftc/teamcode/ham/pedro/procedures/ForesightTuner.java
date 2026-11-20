@@ -27,7 +27,7 @@ public class ForesightTuner extends Procedure {
     Function<HardwareMap, Drivetrain> drivetrainFunction;
 
     public ForesightTuner(Function<HardwareMap, Localizer> localizerFunction, Function<HardwareMap, Drivetrain> drivetrainFunction) {
-        super("Foresight Tuner", "A procedure for tuning the Foresight Algorithm.");
+        super("Foresight Tuner (Ham)", "A procedure for tuning the Foresight Algorithm.");
         this.localizerFunction = localizerFunction;
         this.drivetrainFunction = drivetrainFunction;
     }
