@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.common.FourBarOdometry;
 
 @TeleOp(name = "Ham: TeleOp", group = "Ham")
@@ -89,13 +87,6 @@ public class HamTeleOp extends OpMode {
         if (odometry != null) {
             telemetry.addData("Position (in)", "X %.2f  Y %.2f", odometry.getX(), odometry.getY());
         }
-//        Pose2D visionPose = robot.vision.getFieldPose(robot.drive.getHeading(AngleUnit.DEGREES), AngleUnit.DEGREES);
-//        if (visionPose != null) {
-//            telemetry.addData("Limelight (in)", "X %.2f  Y %.2f",
-//                    visionPose.getX(DistanceUnit.INCH), visionPose.getY(DistanceUnit.INCH));
-//        } else {
-//            telemetry.addData("Limelight", "no tags");
-//        }
     }
 
     @Override

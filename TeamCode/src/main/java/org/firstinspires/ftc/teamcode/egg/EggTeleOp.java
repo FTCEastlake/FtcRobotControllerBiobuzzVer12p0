@@ -5,8 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.teamcode.common.FourBarOdometry;
 
 @TeleOp(name = "Egg: TeleOp", group = "Egg")
@@ -70,12 +69,12 @@ public class EggTeleOp extends OpMode {
         if (odometry != null) {
             telemetry.addData("Position (in)", "X %.2f  Y %.2f", odometry.getX(), odometry.getY());
         }
-        Pose2D visionPose = robot.vision.getFieldPose(robot.drive.getHeading(AngleUnit.DEGREES), AngleUnit.DEGREES);
-        if (visionPose != null) {
-            telemetry.addData("Limelight (in)", "X %.2f  Y %.2f",
-                    visionPose.getX(DistanceUnit.INCH), visionPose.getY(DistanceUnit.INCH));
+        Position tagPosition = robot.vision.getTagPosition();
+        if (tagPosition != null) {
+            telemetry.addData("AprilTag position from camera (in)", "X %.2f  Y %.2f  Z %.2f",
+                    tagPosition.x, tagPosition.y, tagPosition.z);
         } else {
-            telemetry.addData("Limelight", "no tags");
+            telemetry.addData("AprilTag", "no tag pose");
         }
     }
 

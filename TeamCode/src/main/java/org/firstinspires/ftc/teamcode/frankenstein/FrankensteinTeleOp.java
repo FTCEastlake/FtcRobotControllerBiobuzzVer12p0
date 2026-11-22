@@ -6,12 +6,18 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.common.FourBarOdometry;
 
 @TeleOp(name = "Frankenstein: TeleOp", group = "Frankenstein")
-@Disabled
+//@Disabled
 public class FrankensteinTeleOp extends OpMode {
+
+    // Desired camera-relative tag pose: horizontal offset, forward range, and face-on yaw.
+    private static final double TAG_TARGET_X_IN = 0.0;
+    private static final double TAG_TARGET_Z_IN = 52.0;
+    private static final double TAG_TARGET_YAW_DEG = 0.0;
 
     private FrankensteinRobot robot;
     private double maxSpeed = 1.0;
@@ -43,8 +49,9 @@ public class FrankensteinTeleOp extends OpMode {
     // Called one time as soon as you press the Play button on the Driver Station.
     @Override
     public void start() {
-        
-        robot.vision.start();
+        if (robot.vision != null) {
+            robot.vision.start();
+        }
     }
 
     // Called repeatedly after you press the Play button on the Driver Station.
@@ -63,27 +70,44 @@ public class FrankensteinTeleOp extends OpMode {
             robot.drive.resetHeading();
         }
 
-        robot.drive.driveFieldCentric(-gamepad1.left_stick_y, gamepad1.left_stick_x,
+        //Pose3D tagPose = null;
+        if (gamepad1.a && (robot.vision != null)) {
+            robot.tagAligner.alignToTag(TAG_TARGET_X_IN, TAG_TARGET_Z_IN, TAG_TARGET_YAW_DEG, telemetry);
+        } else {
+            robot.drive.driveFieldCentric(-gamepad1.left_stick_y, gamepad1.left_stick_x,
                 gamepad1.right_stick_x, maxSpeed);
-        telemetry.addData("Max speed", "%.2f", maxSpeed);
+        }
 
+        telemetry.addData("Max speed", "%.2f", maxSpeed);
         telemetry.addData("Heading (deg)", "%.2f", robot.drive.getHeading(AngleUnit.DEGREES));
         FourBarOdometry odometry = robot.drive.getOdometry();
         if (odometry != null) {
             telemetry.addData("Position (in)", "X %.2f  Y %.2f", odometry.getX(), odometry.getY());
         }
-        Pose2D visionPose = robot.vision.getFieldPose(robot.drive.getHeading(AngleUnit.DEGREES), AngleUnit.DEGREES);
-        if (visionPose != null) {
-            telemetry.addData("Limelight (in)", "X %.2f  Y %.2f",
-                    visionPose.getX(DistanceUnit.INCH), visionPose.getY(DistanceUnit.INCH));
-        } else {
-            telemetry.addData("Limelight", "no tags");
+
+        if (robot.vision == null) {
+            telemetry.addData("Tag alignment", "Limelight is disabled");
         }
+        else {
+            Pose3D tagPose = robot.tagAligner.getFirstTagPose();
+            Position tagPosition = tagPose == null ? null : tagPose.getPosition().toUnit(DistanceUnit.INCH);
+            if (tagPosition != null) {
+                telemetry.addData("AprilTag position from camera (in)",
+                        "X %.2f  Y %.2f  Z %.2f", tagPosition.x, tagPosition.y, tagPosition.z);
+                telemetry.addData("AprilTag yaw from camera (deg)", "%.1f",
+                        tagPose.getOrientation().getYaw(AngleUnit.DEGREES));
+            } else {
+                telemetry.addData("AprilTag position from camera", "no tag pose");
+            }
+        }
+
     }
 
     @Override
     public void stop() {
         robot.drive.stop();
-        robot.vision.stop();
+        if (robot.vision != null) {
+            robot.vision.stop();
+        }
     }
 }

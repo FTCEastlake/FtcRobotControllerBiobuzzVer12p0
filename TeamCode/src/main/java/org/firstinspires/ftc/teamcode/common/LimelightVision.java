@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
@@ -38,6 +38,8 @@ public class LimelightVision {
     public void stop() {
         limelight.stop();
     }
+
+    public LLStatus getStatus() { return limelight.getStatus(); }
 
     public boolean switchPipeline(int pipeline) {
         return limelight.pipelineSwitch(pipeline);
@@ -71,24 +73,18 @@ public class LimelightVision {
     }
 
     /**
-     * Field pose from AprilTags using MegaTag2, which needs the robot's heading.
-     * The heading comes from odometry/IMU and uses the Limelight field map's convention.
+     * Position of the first visible AprilTag relative to the Limelight camera, in inches.
      *
-     * @return the pose, or null when no tags are visible.
+     * @return the tag position, or null when no tag pose is available.
      */
-    public Pose2D getFieldPose(double robotHeading, AngleUnit unit) {
-        limelight.updateRobotOrientation(unit.toDegrees(robotHeading));
-        LLResult result = getResult();
-        if (result == null || result.getBotposeTagCount() == 0) {
-            return null;
+    public Position getTagPosition() {
+        for (LLResultTypes.FiducialResult fiducial : getFiducials()) {
+            Pose3D tagPose = fiducial.getTargetPoseCameraSpace();
+            if (tagPose != null) {
+                return tagPose.getPosition().toUnit(DistanceUnit.INCH);
+            }
         }
-        Pose3D botpose = result.getBotpose_MT2();
-        if (botpose == null) {
-            return null;
-        }
-        Position position = botpose.getPosition();
-        return new Pose2D(position.unit, position.x, position.y,
-                AngleUnit.DEGREES, botpose.getOrientation().getYaw(AngleUnit.DEGREES));
+        return null;
     }
 
     /** The underlying driver, for anything this class doesn't wrap. */
