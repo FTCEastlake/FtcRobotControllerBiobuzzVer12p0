@@ -14,11 +14,6 @@ import org.firstinspires.ftc.teamcode.common.FourBarOdometry;
 //@Disabled
 public class FrankensteinTeleOp extends OpMode {
 
-    // Desired camera-relative tag pose: horizontal offset, forward range, and face-on yaw.
-    private static final double TAG_TARGET_X_IN = 0.0;
-    private static final double TAG_TARGET_Z_IN = 52.0;
-    private static final double TAG_TARGET_YAW_DEG = 0.0;
-
     private FrankensteinRobot robot;
     private double maxSpeed = 1.0;
     private boolean leftBumperWasPressed;
@@ -72,7 +67,14 @@ public class FrankensteinTeleOp extends OpMode {
 
         //Pose3D tagPose = null;
         if (gamepad1.a && (robot.vision != null)) {
-            robot.tagAligner.alignToTag(TAG_TARGET_X_IN, TAG_TARGET_Z_IN, TAG_TARGET_YAW_DEG, telemetry);
+            // Align to the AprilTag at (x = 0.0 inches, z = 52 inches, yaw = 0.0 degrees)
+            robot.tagAligner.alignToTag(0.0, 52, 0.0, telemetry);
+        } else if (gamepad1.x && (robot.vision != null)) {
+            // Align to the AprilTag at (x = 1.23 inches, z = 54.21 inches, yaw = -13.7 degrees)
+            robot.tagAligner.alignToTag(1.23, 54.21, -13.7, telemetry);
+        } else if (gamepad1.y && (robot.vision != null)) {
+            // Align to the AprilTag at (x = 6.94 inches, z = 55.49 inches, yaw = 6.9 degrees)
+            robot.tagAligner.alignToTag(6.94, 55.49, 6.9, telemetry);
         } else {
             robot.drive.driveFieldCentric(-gamepad1.left_stick_y, gamepad1.left_stick_x,
                 gamepad1.right_stick_x, maxSpeed);
