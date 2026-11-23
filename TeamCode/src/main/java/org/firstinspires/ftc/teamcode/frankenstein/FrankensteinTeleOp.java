@@ -68,13 +68,13 @@ public class FrankensteinTeleOp extends OpMode {
         //Pose3D tagPose = null;
         if (gamepad1.a && (robot.vision != null)) {
             // Align to the AprilTag at (x = 0.0 inches, z = 52 inches, yaw = 0.0 degrees)
-            robot.tagAligner.alignToTag(0.0, 52, 0.0, telemetry);
+            robot.tagAligner.alignToTag(0.0, 65, 0.0, telemetry);
         } else if (gamepad1.x && (robot.vision != null)) {
             // Align to the AprilTag at (x = 1.23 inches, z = 54.21 inches, yaw = -13.7 degrees)
-            robot.tagAligner.alignToTag(1.23, 54.21, -13.7, telemetry);
+            robot.tagAligner.alignToTag(11.0, 68.0, -20.0, telemetry);
         } else if (gamepad1.y && (robot.vision != null)) {
             // Align to the AprilTag at (x = 6.94 inches, z = 55.49 inches, yaw = 6.9 degrees)
-            robot.tagAligner.alignToTag(6.94, 55.49, 6.9, telemetry);
+            robot.tagAligner.alignToTag(-2.0, 71.0, 10.5, telemetry);
         } else {
             robot.drive.driveFieldCentric(-gamepad1.left_stick_y, gamepad1.left_stick_x,
                 gamepad1.right_stick_x, maxSpeed);
