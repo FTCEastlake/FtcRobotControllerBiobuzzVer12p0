@@ -31,7 +31,7 @@ public class HamAutoLeaveAndPark extends OpMode {
     //*************************************************************
     // poses (x, y, heading/degrees)
     private final Pose startPose = poseFactory.of(0, 0, 0);
-    private final Pose parkPose = poseFactory.of(96, 24, 0);
+    private final Pose parkPose = poseFactory.of(84, 24, 0);
 
 
     //*************************************************************

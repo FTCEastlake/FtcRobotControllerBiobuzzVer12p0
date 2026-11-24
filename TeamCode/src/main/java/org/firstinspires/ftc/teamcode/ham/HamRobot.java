@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-
-import org.firstinspires.ftc.teamcode.common.LimelightVision;
+// Remove until Limelight is enabled:
+// import org.firstinspires.ftc.teamcode.common.LimelightVision;
 import org.firstinspires.ftc.teamcode.common.MecanumDrive;
 
 /**
@@ -25,8 +25,9 @@ public class HamRobot {
     public static final GoBildaPinpointDriver.EncoderDirection Y_ENCODER = GoBildaPinpointDriver.EncoderDirection.FORWARD;
 
     public static final double MAX_SPEED = 1.0;
-    public static final int LIMELIGHT_PIPELINE = 0;
-    public static final int LAUNCHER_TARGET_VELOCITY = 1250;
+    // Remove until Limelight is enabled:
+    // public static final int LIMELIGHT_PIPELINE = 0;
+    public static final int LAUNCHER_TARGET_VELOCITY = 15000;    //1250;  (max = 5850 rpm, 117 r[m * 50 gear ratio)
     public static final int LAUNCHER_MIN_VELOCITY = 1200;
 
     private static final boolean USE_PINPOINT_ODOMETRY = false;
@@ -77,7 +78,28 @@ public class HamRobot {
 
     /** Runs the launcher and feeds only after it reaches the minimum shooting speed. */
     public void runShooter(boolean launchRequested, double intakePower) {
-        launcherMotor.setVelocity(launchRequested ? LAUNCHER_TARGET_VELOCITY : 0);
+        boolean pwr100 = true;
+        boolean pwr90 = false;
+        boolean pwr80 = false;
+        boolean pwr70 = false;
+        runShooter(launchRequested, intakePower, pwr100, pwr90, pwr80, pwr70);
+    }
+    public void runShooter(boolean launchRequested, double intakePower,
+                           boolean pwr100, boolean pwr90, boolean pwr80, boolean pwr70) {
+
+        double targetVelocity = 0;
+        if (launchRequested) {
+            if (pwr100) {
+                targetVelocity = LAUNCHER_TARGET_VELOCITY;
+            } else if (pwr90) {
+                targetVelocity = LAUNCHER_TARGET_VELOCITY * 0.90;
+            } else if (pwr80) {
+                targetVelocity = LAUNCHER_TARGET_VELOCITY * 0.80;
+            } else if (pwr70) {
+                targetVelocity = LAUNCHER_TARGET_VELOCITY * 0.70;
+            }
+        }
+        launcherMotor.setVelocity(targetVelocity);
 
         if (launchRequested && launcherMotor.getVelocity() > LAUNCHER_MIN_VELOCITY) {
             windmillServo.setPower(1);
