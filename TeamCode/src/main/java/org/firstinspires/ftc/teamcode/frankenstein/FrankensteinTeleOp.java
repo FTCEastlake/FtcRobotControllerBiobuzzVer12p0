@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.common.FourBarOdometry;
 
 @TeleOp(name = "Frankenstein: TeleOp", group = "Frankenstein")
-//@Disabled
+@Disabled
 public class FrankensteinTeleOp extends OpMode {
 
     private FrankensteinRobot robot;

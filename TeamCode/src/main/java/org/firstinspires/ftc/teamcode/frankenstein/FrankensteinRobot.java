@@ -26,6 +26,7 @@ public class FrankensteinRobot {
     public static final boolean USE_LIMELIGHT = true;
     public static final int LIMELIGHT_PIPELINE = 0;
 
+    //private static final boolean USE_PINPOINT_ODOMETRY = false;
     private static final boolean USE_PINPOINT_ODOMETRY = true;
 
     public final MecanumDrive drive;
