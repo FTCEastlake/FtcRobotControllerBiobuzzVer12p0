@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.common.MecanumDrive;
 public class EggRobot {
 
     // TODO: measure on Egg. Inches from the tracking center (see FourBarOdometry).
-    public static final double XPOD_OFFSET = 0.0;   // sideways inches offset of the X (forward) pod from the tracking center, left positive.
-    public static final double YPOD_OFFSET = 0.0;   // forward inches offset of the Y (strafe) pod from the tracking center, forward positive.
+    public static final double XPOD_OFFSET = 6.161;   // sideways inches offset of the X (forward) pod from the tracking center, left positive.
+    public static final double YPOD_OFFSET = 2.875;   // forward inches offset of the Y (strafe) pod from the tracking center, forward positive.
     // TODO: verify X counts up driving forward and Y counts up strafing left.
     public static final GoBildaPinpointDriver.EncoderDirection X_ENCODER = GoBildaPinpointDriver.EncoderDirection.FORWARD;
     public static final GoBildaPinpointDriver.EncoderDirection Y_ENCODER = GoBildaPinpointDriver.EncoderDirection.FORWARD;
@@ -26,7 +26,8 @@ public class EggRobot {
     private static final boolean USE_PINPOINT_ODOMETRY = false;
 
     public final MecanumDrive drive;
-    public final LimelightVision vision;
+
+//    public final LimelightVision vision;
 
     public EggRobot(HardwareMap hardwareMap) {
         if (USE_PINPOINT_ODOMETRY)
@@ -47,6 +48,7 @@ public class EggRobot {
                     MAX_SPEED);
         }
 
-        vision = new LimelightVision(hardwareMap, LIMELIGHT_PIPELINE);
+        //vision = new LimelightVision(hardwareMap, LIMELIGHT_PIPELINE);
+
     }
 }
