@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.egg;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,15 +8,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class EggIntake {
 
-    private LinearOpMode _opMode;
-    private HardwareMap _hardwareMap;
     private DcMotorEx _motorExIntake;
 
-    public EggIntake (LinearOpMode opMode) throws InterruptedException {
-        _opMode = opMode;
-        _hardwareMap = _opMode.hardwareMap;
-
-        _motorExIntake = _hardwareMap.get(DcMotorEx.class, "motorIntake");
+    public EggIntake (HardwareMap hardwareMap) {
+        _motorExIntake = hardwareMap.get(DcMotorEx.class, "motorIntake");
         _motorExIntake.setDirection(DcMotorSimple.Direction.REVERSE);
         // This uses RUN_USING_ENCODER to be more accurate.
         _motorExIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
